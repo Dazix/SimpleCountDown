@@ -1,4 +1,4 @@
-#Simple countdown
+# Simple countdown
 
 Just another web countdown. Code is written in "pure" JS & CSS without any other dependency. 
 [Live DEMO](https://codepen.io/DazixCZ/pen/BZqjZV)
