@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Countdown</title>
+    
+    <script src="countDown.js"></script>
+    <link href="style.css" media="all" rel="stylesheet" />
+</head>
+<body>
+<div class="container"></div>
+<script>
+    var cd = new Countdown({
+        cont: document.querySelector('.container'),
+        endDate: 1553468400000,
+        outputTranslation: {
+            year: 'Years',
+            week: 'Weeks',
+            day: 'Days',
+            hour: 'Hours',
+            minute: 'Minutes',
+            second: 'Seconds',
+        },
+        endCallback: null,
+        outputFormat: 'week|day|hour|minute|second',
+    });
+    cd.start();
+</script>
+</body>
+</html>
