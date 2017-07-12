@@ -3,7 +3,16 @@
 Just another web countdown. Code is written in "pure" JS & CSS without any other dependency. 
 [Live DEMO](https://codepen.io/DazixCZ/pen/BZqjZV)
 
-## Usage:
+## Compatibility
+- IE 10+
+- Firefox 32+ (maybe lower)
+- Chrome 32+ (maybe lower)
+- Chromium 43+ (I think it will be same like Chrome but I don't have chance to test lower versions)
+- Opera 30+ (maybe lower)
+- Edge 14+
+- Safari 9+ (awful browser it's like new IE)
+
+## Usage
 There is more ways how to write the final date. You can pass it as object (as bellow) or 
 as string in one of JS standard `Date` format or as milliseconds timestamp or as instance 
 of `Date`. 
