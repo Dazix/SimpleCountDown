@@ -6,25 +6,48 @@
     
     <script src="countDown.min.js"></script>
     <link href="style.css" media="all" rel="stylesheet" />
+    <style>
+        body {
+            color: white;
+        }
+    </style>
 </head>
 <body>
-<div class="container"></div>
-<script>
-    var cd = new Countdown({
-        cont: document.querySelector('.container'),
-        endDate: 1993468400000,
-        outputTranslation: {
-            year: 'Years',
-            week: 'custom_string_Weeks',
-            day: 'Days',
-            hour: 'Hours',
-            minute: 'Minutes',
-            second: 'Seconds',
-        },
-        endCallback: null,
-        outputFormat: 'week|day|hour|minute|second',
-    });
-    cd.start();
-</script>
+    <h2>Countdown 1</h2>
+    <div class="container"></div>
+    <h2>Countdown 2</h2>
+    <div class="container2"></div>
+    <script>
+        var cd = new Countdown({
+            cont: document.querySelector('.container'),
+            endDate: 1993468400000,
+            outputTranslation: {
+                year: 'Years',
+                week: 'custom_string_Weeks',
+                day: 'Days',
+                hour: 'Hours',
+                minute: 'Minutes',
+                second: 'Seconds',
+            },
+            endCallback: null,
+            outputFormat: 'week|day|hour|minute|second',
+        });
+        cd.start();
+        var cd2 = new Countdown({
+                cont: document.querySelector('.container2'),
+                endDate: 1593468412000,
+                outputTranslation: {
+                    year: 'Years',
+                    week: 'custom_string_Weeks',
+                    day: 'Days',
+                    hour: 'Hours',
+                    minute: 'Minutes',
+                    second: 'Seconds',
+                },
+                endCallback: null,
+                outputFormat: 'week|day|hour|minute|second',
+            });
+            cd2.start();
+    </script>
 </body>
 </html>

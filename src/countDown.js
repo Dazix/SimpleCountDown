@@ -270,7 +270,7 @@ class Countdown {
     _getDigitCont(intervalName, index) {
         if (!this.digitConts[`${intervalName}_${index}`]) {
             this.digitConts[`${intervalName}_${index}`] =
-                document.querySelector(
+                this.options.cont.querySelector(
                     `.${this._getIntervalContClassName(intervalName)} .${this._getDigitContClassName(index)}`
                 );
         }

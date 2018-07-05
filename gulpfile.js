@@ -46,6 +46,9 @@ gulp.task('dist:less', () => compileLess('dist/', 'countDown.min.css'));
 gulp.task('dist:compile_js', () => compileJs('dist/', 'countDown.min.js'));
 
 gulp.task('develop', gulp.parallel(gulp.series('less', 'less:watch'), gulp.series('js', 'js:watch')));
-gulp.task('update_example', gulp.parallel('example:less', 'example:compile_js'));
-gulp.task('update_dist', gulp.parallel('dist:less', 'dist:compile_js'));
+
+gulp.task('update:example', gulp.parallel('example:less', 'example:compile_js'));
+gulp.task('update:dist', gulp.parallel('dist:less', 'dist:compile_js'));
+gulp.task('update:all', gulp.parallel('update:dist', 'update:example'));
+
 gulp.task('clean', () => del(['build/**/*',]));
