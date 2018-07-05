@@ -13,10 +13,8 @@
     </style>
 </head>
 <body>
-    <h2>Countdown 1</h2>
+    <h2>CountDown 1</h2>
     <div class="container"></div>
-    <h2>Countdown 2</h2>
-    <div class="container2"></div>
     <script>
         var cd = new Countdown({
             cont: document.querySelector('.container'),
@@ -33,21 +31,69 @@
             outputFormat: 'week|day|hour|minute|second',
         });
         cd.start();
+    </script>
+
+    <h2>CountDown 2</h2>
+    <div class="container2"></div>
+    <script>
         var cd2 = new Countdown({
-                cont: document.querySelector('.container2'),
-                endDate: 1593468412000,
-                outputTranslation: {
-                    year: 'Years',
-                    week: 'custom_string_Weeks',
-                    day: 'Days',
-                    hour: 'Hours',
-                    minute: 'Minutes',
-                    second: 'Seconds',
-                },
-                endCallback: null,
-                outputFormat: 'week|day|hour|minute|second',
-            });
-            cd2.start();
+            cont: document.querySelector('.container2'),
+            endDate: 1593468412000,
+            outputTranslation: {
+                year: 'Years',
+                week: 'custom_string_Weeks',
+                day: 'Days',
+                hour: 'Hours',
+                minute: 'Minutes',
+                second: 'Seconds',
+            },
+            endCallback: null,
+            outputFormat: 'week|day|hour|minute|second',
+        });
+        cd2.start();
+    </script>
+
+
+    <h2>CountUp 1</h2>
+    <div class="container3"></div>
+    <script>
+        var cd3 = new Countdown({
+            cont: document.querySelector('.container3'),
+            countdown: false,
+            endDate: Date.now(),
+            outputTranslation: {
+                year: 'Years',
+                week: 'Weeks',
+                day: 'Days',
+                hour: 'Hours',
+                minute: 'Minutes',
+                second: 'Seconds',
+            },
+            endCallback: null,
+            outputFormat: 'week|day|hour|minute|second',
+        });
+        cd3.start();
+    </script>
+
+    <h2>CountUp 2</h2>
+    <div class="container4"></div>
+    <script>
+        var cd4 = new Countdown({
+            cont: document.querySelector('.container4'),
+            countdown: false,
+            endDate: Date.now() - 50000000,
+            outputTranslation: {
+                year: 'Years',
+                week: 'Weeks',
+                day: 'Days',
+                hour: 'Hours',
+                minute: 'Minutes',
+                second: 'Seconds',
+            },
+            endCallback: null,
+            outputFormat: 'week|day|hour|minute|second',
+        });
+        cd4.start();
     </script>
 </body>
 </html>

@@ -13,7 +13,8 @@ class Countdown {
     constructor(userOptions) {
         this.options = {
             cont: null,
-            endDate: {
+            countdown: true,
+            date: {
                 year: 0,
                 month: 0,
                 day: 0,
@@ -45,20 +46,20 @@ class Countdown {
     }
 
     start() {
-        let endDate,
-            endDateData;
+        let date,
+            dateData;
 
         this._fixCompatibility();
 
-        endDate = this._getDate(this.options.endDate);
+        date = this._getDate(this.options.date);
 
-        endDateData = this._prepareTimeByOutputFormat(endDate);
+        dateData = this._prepareTimeByOutputFormat(date);
 
-        this._writeData(endDateData);
+        this._writeData(dateData);
 
-        this.lastTick = endDateData;
+        this.lastTick = dateData;
 
-        if (endDate.getTime() <= Date.now()) {
+        if (this.options.countdown && date.getTime() <= Date.now()) {
             if (typeof this.options.endCallback === 'function') {
                 this.stop();
                 this.options.endCallback();
@@ -67,7 +68,7 @@ class Countdown {
             this.interval = setInterval(
                 () => {
                     this._updateView(
-                        this._prepareTimeByOutputFormat(endDate)
+                        this._prepareTimeByOutputFormat(date)
                     );
                 },
                 this.TIMESTAMP_SECOND
@@ -136,7 +137,7 @@ class Countdown {
             return this.options.outputFormat.split('|').indexOf(item) !== -1;
         });
 
-        timeDiff = dateObj.getTime() - Date.now();
+        timeDiff = this.options.countdown ? dateObj.getTime() - Date.now() : Date.now() - dateObj.getTime();
 
         usedIntervals.forEach(item => {
             let value;

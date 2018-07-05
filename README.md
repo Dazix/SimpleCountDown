@@ -25,13 +25,19 @@ Just another web countdown. The code is written in Vanilla JS & CSS without any 
 There is more ways how to write the final date. You can pass it as object (as bellow) or 
 as string in one of JS standard `Date` format or as milliseconds timestamp or as instance 
 of `Date`. 
+
 Output order/format is set by key `outputFormat`. Possible values are `year`, `week`, `day`, 
 `hour`, `minute` and `second` each separate by pipe char `|`. Unfortunately there is no option 
 for month because count months is little bit hard-work maybe sometimes in future.
+
+Option `countdown` is there for toggling countdown and countup modes. For both modes is posible define date, 
+for `countdown: true` it means end date and for `countdown: false` it means start date.
+
 ```javascript
 let cd = new Countdown({
     cont: document.querySelector('.container'),
-    endDate: {
+    countdown: true, // true for classic countdown, false for countup
+    date: {
         day: 9,
         month: 8,
         year: 2017,
@@ -40,11 +46,15 @@ let cd = new Countdown({
         second: 0,
     },
     /*
-    endDate: "Wednesday March 25 2019",
+    date: "Wednesday March 25 2019",
     // or
-    endDate: 1553468400000,
+    date: 1553468400000,
     // or
-    endDate: new Date(1553468400000),
+    date: new Date(1553468400000),
+    // or
+    date: null, == for now
+    // or
+    missing date key, == for now too
      */
     outputTranslation: {
         year: 'Years',

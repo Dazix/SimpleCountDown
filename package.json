@@ -1,6 +1,6 @@
 {
   "name": "simplecountdown",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Just another web countdown. The code is written in Vanilla JS & CSS without any other dependency. DEMO https://codepen.io/DazixCZ/pen/BZqjZV",
   "scripts": {
     "build": "gulp4 less"
