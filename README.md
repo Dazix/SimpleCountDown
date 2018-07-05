@@ -1,14 +1,23 @@
 # Simple countdown
 
-Just another web countdown. Code is written in "pure" JS & CSS without any other dependency. 
+Just another web countdown. The code is written in Vanilla JS & CSS without any other dependency. 
 [Live DEMO](https://codepen.io/DazixCZ/pen/BZqjZV)
 
 ## Compatibility
+### Compiled state
 - IE 10+
 - Firefox 32+ (maybe lower)
 - Chrome 32+ (maybe lower)
 - Chromium 43+ (I think it will be same like Chrome but I don't have chance to test lower versions)
 - Opera 30+ (maybe lower)
+- Edge 14+
+- Safari 9+ (awful browser it's like new IE)
+
+### Uncompiled state
+- ~~IE~~
+- Firefox 45+
+- Chrome 49+
+- Opera 36+
 - Edge 14+
 - Safari 9+ (awful browser it's like new IE)
 

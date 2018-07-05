@@ -1,8 +1,17 @@
-function Countdown(opt) {
+class Countdown {
 
-    "use strict";
+    get TIMESTAMP_SECOND() { return 1000; }
+    get TIMESTAMP_MINUTE() { return 60 * this.TIMESTAMP_SECOND; }
+    get TIMESTAMP_HOUR() { return 60 * this.TIMESTAMP_MINUTE; }
+    get TIMESTAMP_DAY() { return 24 * this.TIMESTAMP_HOUR; }
+    get TIMESTAMP_WEEK() { return 7 * this.TIMESTAMP_DAY; }
+    get TIMESTAMP_YEAR() { return 365 * this.TIMESTAMP_DAY; }
 
-    let options = {
+    /**
+     * @param {{}} userOptions structure like this.options below
+     */
+    constructor(userOptions) {
+        this.options = {
             cont: null,
             endDate: {
                 year: 0,
@@ -15,40 +24,70 @@ function Countdown(opt) {
             endCallback: null,
             outputFormat: 'year|week|day|hour|minute|second',
             outputTranslation: {
-                year: 'Roky',
-                week: 'Týdny',
-                day: 'Dny',
-                hour: 'Hodin',
-                minute: 'Minut',
-                second: 'Vteřin',
+                year: 'Years',
+                week: 'Weeks',
+                day: 'Days',
+                hour: 'Hours',
+                minute: 'Minutes',
+                second: 'Seconds',
             }
-        },
+        };
 
-        lastTick = null,
-
-        intervalsBySize = [
+        this.lastTick = null;
+        this.intervalsBySize = [
             'year', 'week', 'day', 'hour', 'minute', 'second',
-        ],
+        ];
+        this.elementClassPrefix = 'countDown_';
+        this.interval = null;
+        this.digitConts = {};
 
-        TIMESTAMP_SECOND = 1000,
-        TIMESTAMP_MINUTE = 60 * TIMESTAMP_SECOND,
-        TIMESTAMP_HOUR = 60 * TIMESTAMP_MINUTE,
-        TIMESTAMP_DAY = 24 * TIMESTAMP_HOUR,
-        TIMESTAMP_WEEK = 7 * TIMESTAMP_DAY,
-        TIMESTAMP_YEAR = 365 * TIMESTAMP_DAY,
+        this._assignOptions(this.options, userOptions);
+    }
 
-        elementClassPrefix = 'countDown_',
+    start() {
+        let endDate,
+            endDateData;
 
-        interval = null,
-        digitConts = {};
+        this._fixCompatibility();
 
-    loadOptions(options, opt);
+        endDate = this._getDate(this.options.endDate);
+
+        endDateData = this._prepareTimeByOutputFormat(endDate);
+
+        this._writeData(endDateData);
+
+        this.lastTick = endDateData;
+
+        if (endDate.getTime() <= Date.now()) {
+            if (typeof this.options.endCallback === 'function') {
+                this.stop();
+                this.options.endCallback();
+            }
+        } else {
+            this.interval = setInterval(
+                () => {
+                    this._updateView(
+                        this._prepareTimeByOutputFormat(endDate)
+                    );
+                },
+                this.TIMESTAMP_SECOND
+            );
+        }
+    }
+
+    stop() {
+        if (this.interval !== null) {
+            clearInterval(this.interval);
+        }
+    }
 
     /**
-     * @param date
+     * @param {Date|Object|String|Number} date
+     * 
      * @returns {Date}
+     * @private
      */
-    function getDate(date) {
+    _getDate(date) {
         if (typeof date === 'object') {
             if (date instanceof Date) {
                 return date;
@@ -70,7 +109,7 @@ function Countdown(opt) {
 
                 return new Date(
                     expectedValues.year,
-                    expectedValues.month > 0 ?expectedValues.month -1 : expectedValues.month,
+                    expectedValues.month > 0 ? expectedValues.month - 1 : expectedValues.month,
                     expectedValues.day,
                     expectedValues.hour,
                     expectedValues.minute,
@@ -86,44 +125,46 @@ function Countdown(opt) {
 
     /**
      * @param {Date} dateObj
-     * @return {object}
+     * 
+     * @return {{}}
+     * @private
      */
-    function prepareTimeByOutputFormat(dateObj) {
+    _prepareTimeByOutputFormat(dateObj) {
         let usedIntervals, output = {}, timeDiff;
 
-        usedIntervals = intervalsBySize.filter(function (item) {
-            return options.outputFormat.split('|').indexOf(item) !== -1;
+        usedIntervals = this.intervalsBySize.filter(item => {
+            return this.options.outputFormat.split('|').indexOf(item) !== -1;
         });
 
         timeDiff = dateObj.getTime() - Date.now();
 
-        usedIntervals.forEach(function (item) {
+        usedIntervals.forEach(item => {
             let value;
             if (timeDiff > 0) {
                 switch (item) {
                     case 'year':
-                        value = Math.trunc(timeDiff / TIMESTAMP_YEAR);
-                        timeDiff -= value * TIMESTAMP_YEAR;
+                        value = Math.trunc(timeDiff / this.TIMESTAMP_YEAR);
+                        timeDiff -= value * this.TIMESTAMP_YEAR;
                         break;
                     case 'week':
-                        value = Math.trunc(timeDiff / TIMESTAMP_WEEK);
-                        timeDiff -= value * TIMESTAMP_WEEK;
+                        value = Math.trunc(timeDiff / this.TIMESTAMP_WEEK);
+                        timeDiff -= value * this.TIMESTAMP_WEEK;
                         break;
                     case 'day':
-                        value = Math.trunc(timeDiff / TIMESTAMP_DAY);
-                        timeDiff -= value * TIMESTAMP_DAY;
+                        value = Math.trunc(timeDiff / this.TIMESTAMP_DAY);
+                        timeDiff -= value * this.TIMESTAMP_DAY;
                         break;
                     case 'hour':
-                        value = Math.trunc(timeDiff / TIMESTAMP_HOUR);
-                        timeDiff -= value * TIMESTAMP_HOUR;
+                        value = Math.trunc(timeDiff / this.TIMESTAMP_HOUR);
+                        timeDiff -= value * this.TIMESTAMP_HOUR;
                         break;
                     case 'minute':
-                        value = Math.trunc(timeDiff / TIMESTAMP_MINUTE);
-                        timeDiff -= value * TIMESTAMP_MINUTE;
+                        value = Math.trunc(timeDiff / this.TIMESTAMP_MINUTE);
+                        timeDiff -= value * this.TIMESTAMP_MINUTE;
                         break;
                     case 'second':
-                        value = Math.trunc(timeDiff / TIMESTAMP_SECOND);
-                        timeDiff -= value * TIMESTAMP_SECOND;
+                        value = Math.trunc(timeDiff / this.TIMESTAMP_SECOND);
+                        timeDiff -= value * this.TIMESTAMP_SECOND;
                         break;
                 }
             } else {
@@ -135,31 +176,36 @@ function Countdown(opt) {
         return output;
     }
 
-    function fixCompatibility() {
+    _fixCompatibility() {
         Math.trunc = Math.trunc || function (x) {
-                if (isNaN(x)) {
-                    return NaN;
-                }
-                if (x > 0) {
-                    return Math.floor(x);
-                }
-                return Math.ceil(x);
-            };
+            if (isNaN(x)) {
+                return NaN;
+            }
+            if (x > 0) {
+                return Math.floor(x);
+            }
+            return Math.ceil(x);
+        };
     }
 
-    function writeData(data) {
-        let code = `<div class="${elementClassPrefix}cont">`, intervalName;
+    /**
+     * @param {{}} data
+     * @private 
+     */
+    _writeData(data) {
+        let code = `<div class="${this.elementClassPrefix}cont">`,
+            intervalName;
 
         for (intervalName in data) {
             if (data.hasOwnProperty(intervalName)) {
-                let element = `<div class="${elementClassPrefix}_interval_basic_cont">
-                                       <div class="${getIntervalContCommonClassName()} ${getIntervalContClassName(intervalName)}">`,
-                    intervalDescription = `<div class="${elementClassPrefix}interval_basic_cont_description">
-                                                   ${options.outputTranslation[intervalName]}
+                let element = `<div class="${this.elementClassPrefix}_interval_basic_cont">
+                                       <div class="${this._getIntervalContCommonClassName()} ${this._getIntervalContClassName(intervalName)}">`,
+                    intervalDescription = `<div class="${this.elementClassPrefix}interval_basic_cont_description">
+                                                   ${this.options.outputTranslation[intervalName]}
                                                </div>`;
-                data[intervalName].forEach(function (digit, index) {
-                    element += `<div class="${getDigitContCommonClassName()} ${getDigitContClassName(index)}">
-                                        ${getDigitElementString(digit, 0)}
+                data[intervalName].forEach((digit, index) => {
+                    element += `<div class="${this._getDigitContCommonClassName()} ${this._getDigitContClassName(index)}">
+                                        ${this._getDigitElementString(digit, 0)}
                                     </div>`;
                 });
 
@@ -167,119 +213,120 @@ function Countdown(opt) {
             }
         }
 
-        options.cont.innerHTML = code + '</div>';
-        lastTick = data;
+        this.options.cont.innerHTML = code + '</div>';
+        this.lastTick = data;
     }
 
-    function getDigitElementString(newDigit, lastDigit) {
-        return `<div class="${elementClassPrefix}digit_last_placeholder">
-                        <div class="${elementClassPrefix}digit_last_placeholder_inner">
+    /**
+     * @param {Number} newDigit 
+     * @param {Number} lastDigit
+     * 
+     * @returns {String}
+     * @private 
+     */
+    _getDigitElementString(newDigit, lastDigit) {
+        return `<div class="${this.elementClassPrefix}digit_last_placeholder">
+                        <div class="${this.elementClassPrefix}digit_last_placeholder_inner">
                             ${lastDigit}
                         </div>
                     </div>
-                    <div class="${elementClassPrefix}digit_new_placeholder">${newDigit}</div>
-                    <div class="${elementClassPrefix}digit_last_rotate">${lastDigit}</div>
-                    <div class="${elementClassPrefix}digit_new_rotate">
-                        <div class="${elementClassPrefix}digit_new_rotated">
-                            <div class="${elementClassPrefix}digit_new_rotated_inner">
+                    <div class="${this.elementClassPrefix}digit_new_placeholder">${newDigit}</div>
+                    <div class="${this.elementClassPrefix}digit_last_rotate">${lastDigit}</div>
+                    <div class="${this.elementClassPrefix}digit_new_rotate">
+                        <div class="${this.elementClassPrefix}digit_new_rotated">
+                            <div class="${this.elementClassPrefix}digit_new_rotated_inner">
                                 ${newDigit}
                             </div>
                         </div>
                     </div>`;
     }
 
-    function updateView(data) {
+    /**
+     * @param {{}} data
+     * @private 
+     */
+    _updateView(data) {
         for (let intervalName in data) {
-            if (data.hasOwnProperty(intervalName) ) {
-                data[intervalName].forEach(function (digit, index) {
-                    if (lastTick !== null && lastTick[intervalName][index] !== data[intervalName][index]) {
-                        getDigitCont(intervalName, index).innerHTML =
-                            getDigitElementString(data[intervalName][index], lastTick[intervalName][index]);
+            if (data.hasOwnProperty(intervalName)) {
+                data[intervalName].forEach((digit, index) => {
+                    if (this.lastTick !== null && this.lastTick[intervalName][index] !== data[intervalName][index]) {
+                        this._getDigitCont(intervalName, index).innerHTML =
+                            this._getDigitElementString(data[intervalName][index], this.lastTick[intervalName][index]);
                     }
                 });
             }
         }
 
-        lastTick = data;
+        this.lastTick = data;
     }
 
-    function getDigitCont(intervalName, index) {
-        if (!digitConts[`${intervalName}_${index}`]) {
-            digitConts[`${intervalName}_${index}`] =
+    /**
+     * @param {String} intervalName 
+     * @param {String} index
+     * 
+     * @returns {HTMLElement}
+     * @private
+     */
+    _getDigitCont(intervalName, index) {
+        if (!this.digitConts[`${intervalName}_${index}`]) {
+            this.digitConts[`${intervalName}_${index}`] =
                 document.querySelector(
-                    `.${getIntervalContClassName(intervalName)} .${getDigitContClassName(index)}`
+                    `.${this._getIntervalContClassName(intervalName)} .${this._getDigitContClassName(index)}`
                 );
         }
 
-        return digitConts[`${intervalName}_${index}`];
+        return this.digitConts[`${intervalName}_${index}`];
     }
 
-    function getIntervalContClassName(intervalName) {
-        return `${elementClassPrefix}interval_cont_${intervalName}`;
+    /**
+     * @param {String} intervalName
+     * 
+     * @returns {String}
+     * @private
+     */
+    _getIntervalContClassName(intervalName) {
+        return `${this.elementClassPrefix}interval_cont_${intervalName}`;
     }
 
-    function getIntervalContCommonClassName() {
-        return `${elementClassPrefix}interval_cont`;
+    /**
+     * @returns {String}
+     * @private
+     */
+    _getIntervalContCommonClassName() {
+        return `${this.elementClassPrefix}interval_cont`;
     }
 
-    function getDigitContClassName(index) {
-        return `${elementClassPrefix}digit_cont_${index}`;
+    /**
+     * @param {String} index
+     * 
+     * @returns {String}
+     * @private
+     */
+    _getDigitContClassName(index) {
+        return `${this.elementClassPrefix}digit_cont_${index}`;
     }
 
-    function getDigitContCommonClassName() {
-        return `${elementClassPrefix}digit_cont`;
+    /**
+     * @returns {String}
+     * @private
+     */
+    _getDigitContCommonClassName() {
+        return `${this.elementClassPrefix}digit_cont`;
     }
 
-    function loadOptions(_options, _opt) {
-        for (let i in _options) {
-            if (_options.hasOwnProperty(i) && _opt.hasOwnProperty(i)) {
-                if (_options[i] !== null && typeof _options[i] === 'object' && typeof _opt[i] === 'object') {
-                    loadOptions(_options[i], _opt[i]);
+    /**
+     * @param {{}} options
+     * @param {{}} userOptions
+     */
+    _assignOptions(options, userOptions) {
+        for (let i in options) {
+            if (options.hasOwnProperty(i) && userOptions.hasOwnProperty(i)) {
+                if (options[i] !== null && typeof options[i] === 'object' && typeof userOptions[i] === 'object') {
+                    this._assignOptions(options[i], userOptions[i]);
                 } else {
-                    _options[i] = _opt[i];
+                    options[i] = userOptions[i];
                 }
             }
         }
     }
-
-    function start() {
-        let endDate,
-            endDateData;
-
-        fixCompatibility();
-
-        endDate = getDate(options.endDate);
-
-        endDateData = prepareTimeByOutputFormat(endDate);
-
-        writeData(endDateData);
-
-        lastTick = endDateData;
-
-        if (endDate.getTime() <= Date.now()) {
-            if (typeof options.endCallback === 'function') {
-                options.endCallback();
-            }
-        } else {
-            interval = setInterval(
-                function () {
-                    updateView(
-                        prepareTimeByOutputFormat(endDate)
-                    );
-                },
-                TIMESTAMP_SECOND
-            );
-        }
-    }
-
-    function stop() {
-        if (interval !== null) {
-            clearInterval(interval);
-        }
-    }
-
-    return {
-        start: start,
-        stop: stop,
-    };
 }

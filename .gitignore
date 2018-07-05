@@ -1,1 +1,7 @@
 .idea
+.vscode
+node_modules
+package-lock.json
+*.css
+!example/*.css
+build
