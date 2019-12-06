@@ -19,7 +19,7 @@ let compileLess = (path, name) => {
 
 let compileJs = (path, name) => gulp.src('src/countDown.js')
     .pipe(babel({
-        presets: ['env']
+        presets: ['@babel/env']
     }))
     .pipe(uglify({
         mangle: true,
