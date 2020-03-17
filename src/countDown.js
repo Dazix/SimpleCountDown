@@ -60,16 +60,23 @@ class Countdown {
         this.lastTick = dateData;
 
         if (this.options.countdown && date.getTime() <= Date.now()) {
+            this.stop();
             if (typeof this.options.endCallback === 'function') {
-                this.stop();
                 this.options.endCallback();
             }
         } else {
             this.interval = setInterval(
                 () => {
-                    this._updateView(
-                        this._prepareTimeByOutputFormat(date)
-                    );
+                    if (this.options.countdown && date.getTime() <= Date.now()) {
+                        this.stop();
+                        if (typeof this.options.endCallback === 'function') {
+                            this.options.endCallback();
+                        }
+                    } else {
+                        this._updateView(
+                            this._prepareTimeByOutputFormat(date)
+                        );
+                    }
                 },
                 this.TIMESTAMP_SECOND
             );
