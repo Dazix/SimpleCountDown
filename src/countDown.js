@@ -1,4 +1,4 @@
-class Countdown {
+export default class Countdown {
 
     get TIMESTAMP_SECOND() { return 1000; }
     get TIMESTAMP_MINUTE() { return 60 * this.TIMESTAMP_SECOND; }
@@ -338,3 +338,8 @@ class Countdown {
         }
     }
 }
+
+if (typeof(window) !== 'undefined') {
+    window.Countdown = Countdown;
+}
+
