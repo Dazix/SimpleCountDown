@@ -38,7 +38,7 @@ export default class Countdown {
         this.intervalsBySize = [
             'year', 'week', 'day', 'hour', 'minute', 'second',
         ];
-        this.elementClassPrefix = 'countDown_';
+        this.elementClassPrefix = 'countDown__';
         this.interval = null;
         this.digitConts = {};
 
@@ -206,7 +206,7 @@ export default class Countdown {
 
         for (intervalName in data) {
             if (data.hasOwnProperty(intervalName)) {
-                let element = `<div class="${this.elementClassPrefix}_interval_basic_cont">
+                let element = `<div class="${this.elementClassPrefix}interval_basic_cont">
                                        <div class="${this._getIntervalContCommonClassName()} ${this._getIntervalContClassName(intervalName)}">`,
                     intervalDescription = `<div class="${this.elementClassPrefix}interval_basic_cont_description">
                                                    ${this.options.outputTranslation[intervalName]}
