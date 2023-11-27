@@ -54,8 +54,8 @@ export default class Countdown {
 
         this._fixCompatibility();
 
-        // console.log(this.options.theme);
-        // throw('test opetions');
+        console.log(this.options.theme);
+        throw('test opetions');
         theme = this.options.theme
         date = this._getDate(this.options.date);
 
