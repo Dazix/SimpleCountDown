@@ -3,7 +3,13 @@
   "version": "1.0.2",
   "description": "Just another web countdown. The code is written in Vanilla JS & CSS without any other dependency. DEMO https://codepen.io/DazixCZ/pen/BZqjZV",
   "scripts": {
-    "build:all": "gulp4 update:all"
+    "build:all": "gulp4 update:all",
+    "start": "gulp build && gulp serve",
+    "watch": "gulp watch",
+    "test": "./node_modules/karma/bin/karma start --single-run",
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "lint": "gulp lint"
   },
   "repository": {
     "type": "git",
@@ -23,7 +29,9 @@
     "@babel/core": "~7.7.4",
     "@babel/plugin-transform-modules-umd": "~7.8.3",
     "@babel/preset-env": "~7.7.4",
+    "browser-sync": "^2.29.3",
     "del": "~5.1.0",
+    "gulp": "^4.0.2",
     "gulp-babel": "~8.0.0",
     "gulp-clean-css": "~4.2.0",
     "gulp-less": "~4.0.1",
@@ -33,5 +41,13 @@
     "gulp4": "~4.0.2",
     "less": "~3.10.3",
     "uglify-es": "~3.3.9"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.16",
+    "gulp-cssbeautify": "^3.0.1",
+    "gulp-jshint": "^2.1.0",
+    "gulp-postcss": "^9.0.1",
+    "karma": "^6.4.2",
+    "uglify-save-license": "^0.4.1"
   }
 }

@@ -1,0 +1,173 @@
+// == Config ==
+@font-family: Lato, Arial, Gadget, sans-serif;
+@global_size: 13px;
+@animation_duration: .4s;
+@color-top: #f7f7f7;
+@color-bottom: white;
+
+@interval_container_size: auto; //@minimum_interval_cont_width + 3em;
+@intervals_space_between: 1em;
+
+@border_radius_size: .08em;
+
+@digit_height: 1.6em;
+@digit_width: 1em;
+@digit_size: 5em;
+@digit_middle_line_size: .01em;
+@digit_color: #333;
+
+@descriptionColor: white;
+@descriptionMarginTop: .3em;
+@descriptionSize: 1.2em;
+
+// == Don't touch ==
+@minimum_interval_cont_width: 6 * @digit_width;
+@digit_line_height: @digit_height;
+// == Don't touch end ==
+
+// == style ==
+.countDown__ {
+    &cont {
+        font-family: @font-family;
+        font-size: @global_size;
+        display: flex;
+        color: @digit_color;
+    }
+
+    &interval {
+        &_cont {
+            display: flex;
+            justify-content: space-around;
+            width: @interval_container_size;
+            &:nth-child(n+1):not(:last-child) {
+                margin-right: @intervals_space_between;
+            }
+        }
+        &_basic_cont {
+            display: flex;
+            flex-direction: column;
+            &_description {
+                display: flex;
+                margin-left: .3em;
+                margin-top: @descriptionMarginTop;
+                font-size: @descriptionSize;
+                font-weight: bold;
+                color: @descriptionColor;
+                text-shadow: .1em .1em .1em contrast(@descriptionColor);
+            }
+        }
+    }
+
+    &digit_cont {
+        perspective: @digit_height * 2;
+        box-shadow: .1em .1em .1em rgba(0,0,0,.2);
+        width: @digit_width;
+        height: @digit_height;
+        position: relative;
+        line-height: @digit_line_height;
+        font-size: @digit_size;
+        font-weight: bold;
+        border-radius: @border_radius_size;
+        &:nth-child(n+1):not(:last-child) {
+            margin-right: .05em
+        }
+    }
+
+    &digit_last_placeholder, &digit_new_placeholder {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        text-align: center;
+        overflow: hidden;
+    }
+    &digit_last_placeholder {
+        bottom: 0;
+        background: @color-bottom;
+        border-radius: 0 0 @border_radius_size @border_radius_size;
+        &_inner {
+            .half_content_bottom();
+        }
+    }
+    &digit_new_placeholder {
+        top: 0;
+        background: @color-top;
+        border-radius: @border_radius_size @border_radius_size 0 0;
+    }
+
+    &digit_last_rotate, &digit_new_rotate {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 50%;
+        font-weight: bold;
+        position: absolute;
+        top: 0;
+        overflow: hidden;
+        animation-duration: @animation_duration;
+        animation-timing-function: linear;
+        border-radius: @border_radius_size @border_radius_size 0 0;
+        animation-fill-mode: forwards;
+        transform-origin: 100% 100%;
+        &:after{
+            content: "";
+            position: absolute;
+            z-index: -1;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            border-bottom: @digit_middle_line_size solid rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    &digit_last_rotate {
+        animation-name: countDown_flip_1;
+        background: @color-top;
+    }
+
+    &digit_new_rotate {
+        animation-name: countDown_flip_2;
+        background: @color-bottom;
+    }
+
+    &digit_new_rotated {
+        transform: rotateX(180deg);
+        width: 100%;
+        height: 100%;
+        &_inner {
+            .half_content_bottom();
+        }
+    }
+
+    .half_content_bottom() {
+        width: 100%; height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        bottom: 50%;
+        position: absolute;
+    }
+
+    @keyframes countDown_flip_1 {
+        0% {
+            transform: rotateX(0deg);
+            z-index:1;
+        }
+        100% {
+            transform: rotateX(-180deg);
+            z-index:0;
+        }
+    }
+
+    @keyframes countDown_flip_2 {
+        0% {
+            transform: rotateX(0deg);
+            z-index:0;
+        }
+        100% {
+            transform: rotateX(-180deg);
+            z-index:1;
+        }
+    }
+}

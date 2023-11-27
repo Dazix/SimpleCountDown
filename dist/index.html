@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Countdown</title>
+    
+    <script src="js/countDown.min.js"></script>
+    <link href="css/style.css" media="all" rel="stylesheet" />
+    <style>
+        body {
+            background:#f0eded;
+        }
+    </style>
+</head>
+<body>
+    <!-- <h2>CountDown 1</h2>
+    <div class="container"></div>
+    <script>
+        var cd = new Countdown({
+            cont: document.querySelector('.container'),
+            date: 1993468400000,
+            outputTranslation: {
+                year: 'Years',
+                week: 'custom_string_Weeks',
+                day: 'Days',
+                hour: 'Hours',
+                minute: 'Minutes',
+                second: 'Seconds',
+            },
+            endCallback: null,
+            outputFormat: 'week|day|hour|minute|second',
+        });
+        cd.start();
+    </script>
+
+    <h2>CountDown 2</h2>
+    <div class="container2"></div>
+    <script>
+        var cd2 = new Countdown({
+            cont: document.querySelector('.container2'),
+            date: 1593468412000,
+            outputTranslation: {
+                year: 'Years',
+                week: 'custom_string_Weeks',
+                day: 'Days',
+                hour: 'Hours',
+                minute: 'Minutes',
+                second: 'Seconds',
+            },
+            endCallback: null,
+            outputFormat: 'week|day|hour|minute|second',
+        });
+        cd2.start();
+    </script>
+    
+    <h2>CountDown 3</h2>
+    <div class="container5"></div>
+    <script>
+        var cd5 = new Countdown({
+            cont: document.querySelector('.container5'),
+            date: Date.now() + 5000,
+            outputTranslation: {
+                year: 'Years',
+                week: 'custom_string_Weeks',
+                day: 'Days',
+                hour: 'Hours',
+                minute: 'Minutes',
+                second: 'Seconds',
+            },
+            endCallback: function () {
+                document.querySelector('.container5').insertAdjacentHTML(
+                    'beforeend', 
+                    '<div style="display: flex;height: 50px;align-items: center;justify-content: center;background: red;font-weight: bold;">Countdown 3 ended.</div>')
+            },
+            outputFormat: 'week|day|hour|minute|second',
+        });
+        cd5.start();
+    </script> -->
+
+    
+<h2>CountDown 4</h2>
+<div class="countDown_4"></div>
+<script>
+    var cd5 = new Countdown({
+        cont: document.querySelector('.countDown_4'),
+        date: Date.now() + 20000,
+        outputTranslation: {
+            year: 'Years',
+            week: 'custom_string_Weeks',
+            day: 'Days',
+            hour: 'Hours',
+            minute: 'Minutes',
+            second: 'Seconds',
+        },
+        endCallback: function () {
+            document.querySelector('.countDown_4').insertAdjacentHTML(
+                'beforeend', 
+                '<div style="display: flex;height: 50px;align-items: center;justify-content: center;background: red;font-weight: bold;">Countdown 3 ended.</div>')
+        },
+        outputFormat: 'week|day|hour|minute|second',
+        theme:'digital'
+    });
+    cd5.start();
+</script>
+
+
+    <!-- <h2>CountUp 1</h2>
+    <div class="container3"></div>
+    <script>
+        var cd3 = new Countdown({
+            cont: document.querySelector('.container3'),
+            countdown: false,
+            date: Date.now(),
+            outputTranslation: {
+                year: 'Years',
+                week: 'Weeks',
+                day: 'Days',
+                hour: 'Hours',
+                minute: 'Minutes',
+                second: 'Seconds',
+            },
+            endCallback: null,
+            outputFormat: 'week|day|hour|minute|second',
+        });
+        cd3.start();
+    </script>
+
+    <h2>CountUp 2</h2>
+    <div class="container4"></div>
+    <script>
+        var cd4 = new Countdown({
+            cont: document.querySelector('.container4'),
+            countdown: false,
+            date: Date.now() - 50000000,
+            outputTranslation: {
+                year: 'Years',
+                week: 'Weeks',
+                day: 'Days',
+                hour: 'Hours',
+                minute: 'Minutes',
+                second: 'Seconds',
+            },
+            endCallback: null,
+            outputFormat: 'week|day|hour|minute|second',
+        });
+        cd4.start();
+    </script> -->
+
+
+</body>
+</html>
